@@ -74,7 +74,6 @@ const getPasswordLink = async (req, res) => {
     const resetLink = `${BASE_URL}/passwordreset/resetpassword/${requestId}`;
     log("Reset link:", resetLink);
 
-    // --- Brevo send with detailed logging ---
     try {
       if (!BREVO_KEY) {
         log("BREVO_KEY missing! Aborting email send.");

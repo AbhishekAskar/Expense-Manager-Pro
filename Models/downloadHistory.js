@@ -14,7 +14,7 @@ const downloadHistorySchema = new mongoose.Schema({
     ref: "User",
     required: true
   }
-}, { timestamps: true }); // Adds createdAt and updatedAt
+}, { timestamps: true }); 
 
 const DownloadHistory = mongoose.model("DownloadHistory", downloadHistorySchema);
 

@@ -11,8 +11,8 @@ const authenticate = (req, res, next) => {
     const token = authHeader.split(' ')[1];
 
     try {
-        const decoded = jwt.verify(token, SECRET_KEY);
-        req.user = { id: decoded.userId };
+        const decoded = jwt.verify(token, SECRET_KEY); //decoded is basically a payload
+        req.user = { id: decoded.userId };             //that's why we are doing decoded.userId to fetch the userId from the payload
         next();
     } catch (err) {
         return res.status(401).send('Invalid token');

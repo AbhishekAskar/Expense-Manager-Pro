@@ -15,7 +15,7 @@ const forgotPasswordRequestSchema = new mongoose.Schema({
     ref: "User",
     required: true
   }
-}, { timestamps: true }); // Automatically adds createdAt and updatedAt
+}, { timestamps: true }); 
 
 const ForgotPasswordRequest = mongoose.model("ForgotPasswordRequest", forgotPasswordRequestSchema);
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const fs = require("fs");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose"); 
 
@@ -16,13 +15,11 @@ const analyticsRoute = require("./Routes/reportGenerationRoute");
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes
 app.get("/user/login", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "login.html"));
 });
@@ -40,15 +37,24 @@ app.use("/analytics", analyticsRoute);
 
 const PORT = process.env.PORT || 3000;
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("✅ MongoDB Connected!");
+const connectDB = async () => {
+  try {
+    if (mongoose.connection.readyState >= 1) {
+      return;
+    }
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ MongoDB Connected!");
+  } catch (err) {
+    console.error("❌ MongoDB Connection Error:", err);
+  }
+};
+
+connectDB();
+
+if (!process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`🚀 Server is live on http://localhost:${PORT}`);
   });
-})
-.catch((err) => {
-  console.error("❌ MongoDB Connection Error:", err);
-  process.exit(1); // exit if DB fails
-});
+}
+
+module.exports = app;

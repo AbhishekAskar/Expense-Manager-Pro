@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
   money: {
-    type: Number,  // Use Number instead of String
+    type: Number,  
     required: true
   },
   description: {
@@ -14,11 +14,11 @@ const expenseSchema = new mongoose.Schema({
     required: true
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId, // Reference to User
+    type: mongoose.Schema.Types.ObjectId, 
     ref: "User",
     required: true
   }
-}, { timestamps: true }); // createdAt and updatedAt auto-managed
+}, { timestamps: true }); 
 
 const Expense = mongoose.model("Expense", expenseSchema);
 module.exports = Expense;

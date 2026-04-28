@@ -20,7 +20,7 @@ const initiatePayment = async (req, res) => {
             amount,
             currency,
             userId,
-            "9999999999", // You might want to replace this with user's actual phone
+            "9999999999",
             returnUrl
         );
 

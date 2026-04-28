@@ -15,7 +15,6 @@ const addExpense = async (req, res) => {
       return res.status(400).json({ error: "Invalid money amount" });
     }
 
-    // Create new expense
     const expense = await Expense.create({
       money: parsedMoney,
       description,
@@ -23,7 +22,6 @@ const addExpense = async (req, res) => {
       userId
     });
 
-    // Update total expense for user
     await User.findByIdAndUpdate(userId, {
       $inc: { totalExpense: parsedMoney }
     });
@@ -35,7 +33,6 @@ const addExpense = async (req, res) => {
   }
 };
 
-// Get expenses with pagination
 const getExpense = async (req, res) => {
   const page = +req.query.page || 1;
   const limit = +req.query.limit || 10;
@@ -69,7 +66,6 @@ const deleteExpense = async (req, res) => {
       return res.status(404).json({ message: "Expense not found" });
     }
 
-    // Update user's totalExpense
     await User.findByIdAndUpdate(expense.userId, {
       $inc: { totalExpense: -parseFloat(expense.money) }
     });

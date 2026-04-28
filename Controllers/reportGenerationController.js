@@ -3,7 +3,7 @@ const User = require("../Models/userModel");
 const { Parser } = require("json2csv");
 
 const getAnalyticsData = async (req, res) => {
-  const userId = req.user.id;  // user._id from auth middleware
+  const userId = req.user.id;  
   const filter = req.query.filter || "all";
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -18,7 +18,6 @@ const getAnalyticsData = async (req, res) => {
     let whereCondition = { userId };
     const now = new Date();
 
-    // Build date range filters
     if (filter === "daily") {
       const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
       const end = new Date(start);
