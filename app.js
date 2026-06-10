@@ -28,6 +28,10 @@ app.get("/user/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "signup.html"));
 });
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "login.html"));
+})
+
 app.use("/user", userRoutes); 
 app.use("/expense", expenseRoutes);
 app.use("/purchase", purchaseRoutes);
