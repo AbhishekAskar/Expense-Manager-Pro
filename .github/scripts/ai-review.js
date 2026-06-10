@@ -1,17 +1,20 @@
 const fs = require('fs');
 const https = require('https');
 
-async function callGemini(prompt) {
+async function callGroq(prompt) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }]
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 1000
     });
 
     const options = {
-      hostname: 'generativelanguage.googleapis.com',
-      path: `/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      hostname: 'api.groq.com',
+      path: '/openai/v1/chat/completions',
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(body)
       }
@@ -23,9 +26,9 @@ async function callGemini(prompt) {
       res.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          resolve(parsed.candidates[0].content.parts[0].text);
+          resolve(parsed.choices[0].message.content);
         } catch (e) {
-          reject(new Error('Gemini parse error: ' + data));
+          reject(new Error('Groq parse error: ' + data));
         }
       });
     });
@@ -91,7 +94,7 @@ Code diff:
 ${diff}
 \`\`\``;
 
-    const review = await callGemini(prompt);
+    const review = await callGroq(prompt);
 
     const comment = `## 🤖 AI Code Review (Powered by Gemini)
 
